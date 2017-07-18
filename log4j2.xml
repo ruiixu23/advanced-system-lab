@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="warn">
+  <Appenders>
+    <RandomAccessFile name="trace" fileName="log/trace.log" immediateFlush="false">
+      <PatternLayout charset="US-ASCII" alwaysWriteExceptions="false">
+        <Pattern>%threadId,%level{length=1},%message%n</Pattern>
+      </PatternLayout>
+    </RandomAccessFile>
+    <RandomAccessFile name="error" fileName="log/error.log" immediateFlush="false" >
+      <PatternLayout>
+        <Pattern>%threadId,%level{length=1},%class,%method,%message%n%rException{full}%n</Pattern>
+      </PatternLayout>
+    </RandomAccessFile>
+  </Appenders>
+  <Loggers>
+    <Root level="ALL">
+      <AppenderRef ref="trace" level="trace"/>
+      <AppenderRef ref="error" level="error"/>
+    </Root>
+  </Loggers>
+</Configuration>

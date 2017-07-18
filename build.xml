@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="asl-fall16-project" basedir="." default="jar">
+  <description>ANT Build File for ASL Fall 2016 Project</description>
+
+  <!-- Define global properties for this build -->
+  <property name="nethz-id" value="ruxu" />
+  <property name="build" location="build" />
+  <property name="dist" location="dist" />
+  <property name="lib" location="lib" />
+  <property name="src" location="src" />
+
+  <!-- Define classpath for this build -->
+  <path id="classpath">
+    <fileset dir="${lib}" includes="**/*.jar" />
+  </path>
+
+  <target name="init" description="Initialization">
+    <tstamp/>
+    <mkdir dir="${build}"/>
+    <mkdir dir="${dist}"/>
+  </target>
+
+  <target name="compile" depends="init" description="Compile the source code">
+    <!-- Compile the java code from ${src} into ${build} -->
+    <javac srcdir="${src}" destdir="${build}" classpathref="classpath" includeantruntime="false" />
+  </target>
+
+  <target name="jar" depends="compile" description="Generate the distribution jar file">
+    <!-- Put everything in ${build} and ${lib} into the jar file -->
+    <jar destfile="${dist}/middleware-${nethz-id}.jar" basedir="${build}">
+      <manifest>
+        <attribute name="Class-Path" value="${lib}/**/*.jar" />
+        <attribute name="Main-Class" value="ch.ethz.ruxu.asl.RunMW"/>
+      </manifest>
+      <zipgroupfileset dir="${lib}" includes="**/*.jar" />
+      <fileset file="log4j2.xml" />
+    </jar>
+  </target>
+
+  <target name="clean" description="Clean up">
+    <!-- Delete the ${build} and ${dist} directory trees -->
+    <delete dir="${build}"/>
+    <delete dir="${dist}"/>
+  </target>
+</project>
